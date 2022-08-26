@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectToken } from "../store/user/selectors"
 import { logOut } from "../store/user/slice"
+import { Link } from "react-router-dom"
 
 export const Navigation = () => {
 
@@ -23,17 +24,17 @@ export const Navigation = () => {
         <span/>
       </Hamburger>
       <Menu open={open}>
+        <MenuLink to="/empty1">Empty 1</MenuLink>
+        <MenuLink to="/empty2">Empty 2</MenuLink>
         {token 
-          ? <MenuLink onClick={() => dispatch(logOut())}>Logout</MenuLink> 
-          : <MenuLink href="/login">Login</MenuLink>}
-        <MenuLink href="/leaflet">Empty 1</MenuLink>
-        <MenuLink href="/styled">Empty 2</MenuLink>
+          ? <button onClick={() => dispatch(logOut())}>Logout</button> 
+          : <MenuLink to="/login">Login</MenuLink>}
       </Menu>
     </Nav>
   )
 }
 
-const MenuLink = styled.a`
+const MenuLink = styled(Link)`
   padding: 1rem 2rem;
   cursor: pointer;
   text-align: center;
