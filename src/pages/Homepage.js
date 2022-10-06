@@ -1,22 +1,34 @@
-import { Title } from "../styled"
-import { Link } from "react-router-dom"
-import { LinkWord } from "../styled"
 import styled from "styled-components"
+import { useDispatch, useSelector } from "react-redux"
+import { getProducts } from "../store/product/thunks";
+import { selectProducts } from "../store/product/selectors";
+import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 export const Homepage = () => {
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts)
+
+  useEffect(() => {
+    dispatch(getProducts())
+  }, [])
+
+  if (!products) {
+    return <div>Loading...</div>
+  }
+
 
   return (
     <Container>
-     <h3>Hello there 👋</h3>
-     <p>General information:</p>
-     <ul>
-      <li>Go to your backend and modify the config url</li>
-      <li>Make sure you clicked on the <b>use template</b> button on github</li>
-      <li>This template is using <a style={LinkWord} target="_blank" href="https://styled-components.com/">styled components</a>, you don't have to use it</li>
-      <li>You don't have to follow the folder structure, feel free to adapt to your own</li>
-      <li>Login and SignUp are already implemented</li>
-      <li>Modify this page to create your own homeepage</li>
-     </ul>
+      {products.map(p => {
+        return <div key={p.id}>
+          <NavLink to={`/product/${p.id}`}>
+            <img src={p.imgUrl} alt={p.name} width="320px" />
+            <h2>{p.name}</h2>
+            <p>{p.description}</p>
+          </NavLink>
+        </div>
+      })}
     </Container>
   )
 }

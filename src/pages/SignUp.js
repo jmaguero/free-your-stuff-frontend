@@ -9,6 +9,7 @@ import { selectToken } from "../store/user/selectors"
 export const SignUp = () => {
 
   const [name, setName] = useState("")
+  const [lastname, setLastname] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -29,27 +30,32 @@ export const SignUp = () => {
   }
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div style={{ textAlign: "center" }}>
       <Container>
         <Title>Sign Up</Title>
         <form onSubmit={submitForm}>
-          <Input 
-            placeholder="name"
-            value={name} 
+          <Input
+            placeholder="Name"
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <Input 
-            placeholder="email"
-            value={email} 
+          <Input
+            placeholder="Lastname"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+          />
+          <Input
+            placeholder="Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input 
-            type="password" 
-            placeholder="password"
-            value={password} 
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <br/>
+          <br />
           <Button type="submit">Sign Up</Button>
         </form>
       </Container>
