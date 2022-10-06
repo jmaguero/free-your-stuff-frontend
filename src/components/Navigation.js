@@ -7,27 +7,28 @@ import { Link } from "react-router-dom"
 
 export const Navigation = () => {
 
-  const [ open, setOpen ] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const dispatch = useDispatch()
 
   const token = useSelector(selectToken)
 
-  return(
+  return (
     <Nav>
       <Logo href="/">
         Codaisseur<span>templates</span>
       </Logo>
       <Hamburger onClick={() => setOpen(!open)}>
-        <span/>
-        <span/>
-        <span/>
+        <span />
+        <span />
+        <span />
       </Hamburger>
       <Menu open={open}>
         <MenuLink to="/empty1">Empty 1</MenuLink>
-        <MenuLink to="/empty2">Empty 2</MenuLink>
-        {token 
-          ? <button onClick={() => dispatch(logOut())}>Logout</button> 
+        {token ? <MenuLink to="/me">My Profile</MenuLink> : null}
+
+        {token
+          ? <button onClick={() => dispatch(logOut())}>Logout</button>
           : <MenuLink to="/login">Login</MenuLink>}
       </Menu>
     </Nav>
@@ -101,7 +102,7 @@ const Menu = styled.div`
     overflow: hidden;
     flex-direction: column;
     width: 100%;
-    max-height: ${({open}) => open ? "300px" : "0"};
+    max-height: ${({ open }) => open ? "300px" : "0"};
     transition: max-height 0.3s ease-in;
   }
 `
