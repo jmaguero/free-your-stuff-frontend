@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from 'react-router-dom';
 import { selectUser, selectToken } from '../store/user/selectors';
-import { updateUser } from '../store/user/thunks';
+import { getUserWithStoredToken, updateUser } from '../store/user/thunks';
 
 export const UserPage = () => {
   const [toggle, setToggle] = useState(false);
@@ -16,6 +15,11 @@ export const UserPage = () => {
     email: user.email
   })
 
+
+  useEffect(() => {
+    dispatch(getUserWithStoredToken())
+  }, []);
+
   const handleSubmit = e => {
     e.preventDefault();
     setToggle(!toggle)
@@ -24,12 +28,6 @@ export const UserPage = () => {
 
 
   if (!token) {
-    return <div>You must be logged in to see this pages
-      <NavLink to="/login">Login</NavLink>
-    </div>
-  }
-
-  if (!user) {
     return <div>You must be logged in to see this pages
       <NavLink to="/login">Login</NavLink>
     </div>

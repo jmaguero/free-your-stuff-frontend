@@ -3,7 +3,7 @@ import axios from "axios";
 import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
-import { loginSuccess, logOut, tokenStillValid } from "./slice";
+import { loginSuccess, logOut, tokenStillValid, updateUserState } from "./slice";
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -133,6 +133,8 @@ export const updateUser = (params) => {
       const response = await axios.patch(`${apiUrl}/auth/me`, params, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      dispatch(updateUserState(response.data));
+      console.log(response.data)
 
       dispatch(appDoneLoading());
     } catch (error) {
