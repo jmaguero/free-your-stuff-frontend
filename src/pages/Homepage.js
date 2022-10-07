@@ -20,6 +20,7 @@ export const Homepage = () => {
 
   return (
     <Container>
+      <NavLink to="/product/post"><button>Post a product</button></NavLink>
       {products.map(p => {
         return <div key={p.id}>
           <NavLink to={`/product/${p.id}`}>

@@ -1,30 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from 'react-router-dom';
 import { selectUser, selectToken } from '../store/user/selectors';
-import { getUserWithStoredToken, updateUser } from '../store/user/thunks';
+import { updateUser } from '../store/user/thunks';
 
 export const UserPage = () => {
   const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
+
   const [editUser, setEditUser] = useState({
-    name: user.name,
-    lastname: user.lastname,
-    email: user.email
+    name: user && user.name,
+    lastname: user && user.lastname,
+    email: user && user.email
   })
-
-
-  useEffect(() => {
-    dispatch(getUserWithStoredToken())
-  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
     setToggle(!toggle)
     dispatch(updateUser(editUser))
   }
+
+  if (!user) return <div>Loading</div>
 
 
   if (!token) {
