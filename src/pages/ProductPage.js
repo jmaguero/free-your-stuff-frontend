@@ -21,6 +21,8 @@ export const ProductPage = () => {
     dispatch(getProduct(id))
   }, [])
 
+
+
   if (!product) {
     return <div>Loading...</div>
   }
