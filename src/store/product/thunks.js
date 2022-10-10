@@ -3,19 +3,25 @@ import axios from "axios";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
 import { selectToken } from "../user/selectors";
-import { updateProducts, updateProduct } from "./slice";
+import { updateProducts, updateProduct, updateSearchResult } from "./slice";
 
 
 //fetch all products
-export const getProducts = () => {
+export const getProducts = (term) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
+
     try {
-      const response = await axios.get(`${apiUrl}/products`);
-      dispatch(
-        updateProducts(response.data)
-      );
+      const response = await axios.get(`${apiUrl}/products`, { params: { term: term } });
+      if (term) {
+        dispatch(updateSearchResult(response.data))
+      } else {
+        dispatch(
+          updateProducts(response.data)
+        );
+      }
       dispatch(appDoneLoading());
+
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

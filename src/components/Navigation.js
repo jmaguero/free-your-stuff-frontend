@@ -1,32 +1,50 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectToken } from "../store/user/selectors"
 import { logOut } from "../store/user/slice"
 import { Link } from "react-router-dom"
-
+import searchIcon from "@/../../public/assets/searchIcon.png";
+import { getProducts } from "../store/product/thunks"
+import { selectSearchResult } from "../store/product/selectors"
 export const Navigation = () => {
 
   const [open, setOpen] = useState(false)
-
+  const [searchTerm, setSearchTerm] = useState("")
   const dispatch = useDispatch()
 
   const token = useSelector(selectToken)
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Search term: ", searchTerm)
+    //Will redirect to the results page when user press enter or click the button.
+  }
+
+  //will trigger a thunk everytime searchTerm changes.
+  useEffect(() => {
+    dispatch(getProducts(searchTerm));
+  }, [searchTerm])
+
 
   return (
     <Nav>
       <Logo href="/">
         Codaisseur<span>templates</span>
       </Logo>
+      <form onSubmit={handleSearch}>
+        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Introduce a search term" />
+        <button type="submit"><img src={searchIcon} alt="Search" style={{ height: "15px" }} /></button>
+      </form>
+
       <Hamburger onClick={() => setOpen(!open)}>
         <span />
         <span />
         <span />
       </Hamburger>
       <Menu open={open}>
-        <MenuLink to="/empty1">Empty 1</MenuLink>
+        <MenuLink to="/product/post">Post product!</MenuLink>
         {token ? <MenuLink to="/me">My Profile</MenuLink> : null}
-
         {token
           ? <button onClick={() => dispatch(logOut())}>Logout</button>
           : <MenuLink to="/login">Login</MenuLink>}
