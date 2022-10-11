@@ -7,11 +7,15 @@ import { Link } from "react-router-dom"
 import searchIcon from "@/../../public/assets/searchIcon.png";
 import { getProducts } from "../store/product/thunks"
 import { selectSearchResult } from "../store/product/selectors"
+import { NavLink } from "react-router-dom"
+
 export const Navigation = () => {
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [toggleSearchResults, setToggleSearchResults] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const dispatch = useDispatch()
+  const searchResult = useSelector(selectSearchResult)
 
   const token = useSelector(selectToken)
 
@@ -32,11 +36,19 @@ export const Navigation = () => {
       <Logo href="/">
         Codaisseur<span>templates</span>
       </Logo>
-      <form onSubmit={handleSearch}>
-        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Introduce a search term" />
-        <button type="submit"><img src={searchIcon} alt="Search" style={{ height: "15px" }} /></button>
-      </form>
+      <div>
+        <form onSubmit={handleSearch} onClick={() => setToggleSearchResults(!toggleSearchResults)}>
+          <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Introduce a search term" />
+          <button type="submit"><img src={searchIcon} alt="Search" style={{ height: "15px" }} /></button>
+        </form>
+        {toggleSearchResults ? <div style={{ backgroundColor: "#E3EECD", display: "flex", flexDirection: "column", position: "absolute", width: "228px" }}>
+          {searchResult ? <NavLink to={`/results/${searchTerm}`} key={"searchResults"} onClick={() => setToggleSearchResults(!toggleSearchResults)}>Results Page</NavLink> : null}
+          {searchResult?.map((p, index) => {
+            if (index < 6) { return <div onClick={() => setToggleSearchResults(!toggleSearchResults)}><img style={{ height: "20px" }} src={p.imgUrl} alt={p.name} /><NavLink to={`/product/${p.id}`} key={p.id}>{p.name}</NavLink></div> }
+          })}
 
+        </div> : null}
+      </div>
       <Hamburger onClick={() => setOpen(!open)}>
         <span />
         <span />
