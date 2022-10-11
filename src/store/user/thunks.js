@@ -3,7 +3,7 @@ import axios from "axios";
 import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
-import { loginSuccess, logOut, tokenStillValid, updateUserState } from "./slice";
+import { loginSuccess, logOut, tokenStillValid, updateUserProducts, updateUserState } from "./slice";
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -136,6 +136,103 @@ export const updateUser = (params) => {
       dispatch(updateUserState(response.data));
       console.log(response.data)
 
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error)
+        console.log(error.response.message);
+      } else {
+        console.log(error);
+      }
+      // if we get a 4xx or 5xx response,
+      // get rid of the token by logging out
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const getUserProducts = () => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+      // if we do have a token,
+      // check wether it is still valid or if it is expired
+      const response = await axios.get(`${apiUrl}/products/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(updateUserProducts(response.data));
+
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error)
+        console.log(error.response.message);
+      } else {
+        console.log(error);
+      }
+      // if we get a 4xx or 5xx response,
+      // get rid of the token by logging out
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const updateUserProduct = (product) => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+      // if we do have a token,
+      // check wether it is still valid or if it is expired
+      const response = await axios.patch(`${apiUrl}/products/${product.id}`, { ...product }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(showMessageWithTimeout("success", true, response.data.message));
+      dispatch(updateUserProducts(response.data.products));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error)
+        console.log(error.response.message);
+      } else {
+        console.log(error);
+      }
+      // if we get a 4xx or 5xx response,
+      // get rid of the token by logging out
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const deleteProduct = (id) => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+      // if we do have a token,
+      // check wether it is still valid or if it is expired
+      const response = await axios.delete(`${apiUrl}/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch(showMessageWithTimeout("success", true, response.data.message));
+      dispatch(updateUserProducts(response.data.userProducts));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
