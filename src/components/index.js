@@ -1,2 +1,6 @@
 export * from "./Navigation"
 export * from "./MessageBox"
+export * from "./ProductGridComponent"
+export * from "./ProductComponent"
+export * from "./MapComponent"
+export * from "./ContactFormComponent"
