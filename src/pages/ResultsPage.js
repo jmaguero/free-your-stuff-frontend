@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import { ProductGridComponent } from '../components'
 import { selectSearchResult } from '../store/product/selectors'
 import { Container } from '../styled'
@@ -8,6 +9,11 @@ import { Container } from '../styled'
 export const ResultsPage = () => {
   const searchResult = useSelector(selectSearchResult)
   const [mapToggle, setMapToggle] = useState(false)
+
+  if (!searchResult) {
+    return (<div>No search results, please enter a different search</div>)
+  }
+
   return (
     <Container>
       <button onClick={() => setMapToggle(!mapToggle)}>{!mapToggle ? "Show Results on map" : "Show Results Grid"}</button>
@@ -17,12 +23,17 @@ export const ResultsPage = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {searchResult.map(p => {
+          {searchResult && searchResult.map(p => {
             return (<Marker key={p.id} position={[`${p.lat + (Math.random() * 0.02)}`, `${p.long + (Math.random() * 0.02)}`]}>
               <Popup>
-                <img src={p.imgUrl} alt={p.name} style={{ height: "200px", width: "200px" }} />
-                <p>{p.name}</p>
+                <NavLink to={`/product/${p.id}`}>
+                  <img src={p.imgUrl} alt={p.name} style={{ height: "200px", width: "200px" }} />
+                </NavLink>
+                <NavLink to={`/product/${p.id}`}>
+                  <p>{p.name}</p>
+                </NavLink>
                 <p>Condition: {p.condition}</p>
+                <p>Description: {p.description}</p>
               </Popup>
             </Marker>)
           })}
