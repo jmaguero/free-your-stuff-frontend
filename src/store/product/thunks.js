@@ -14,7 +14,11 @@ export const getProducts = (term) => {
     try {
       const response = await axios.get(`${apiUrl}/products`, { params: { term: term } });
       if (term) {
-        dispatch(updateSearchResult(response.data))
+        if (response.data) {
+          dispatch(updateSearchResult(response.data))
+        } else {
+          dispatch(showMessageWithTimeout("success", true, "No results Found"))
+        }
       } else {
         dispatch(
           updateProducts(response.data)

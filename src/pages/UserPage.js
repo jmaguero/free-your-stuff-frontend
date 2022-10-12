@@ -93,10 +93,12 @@ export const UserPage = () => {
           <tbody>
             {userProducts.map(p => {
               return (<tr key={p.id}>
-                <td><img src={p.imgUrl} alt={p.name} style={{ width: "60px", height: "60px" }} /></td>
-                <td>{p.name}</td>
+
+                <td><NavLink to={`/product/${p.id}`}><img src={p.imgUrl} alt={p.name} style={{ width: "60px", height: "60px" }} /></NavLink></td>
+                <td><NavLink to={`/product/${p.id}`}>{p.name}</NavLink></td>
                 <td>{moment(p.createdAt).format('L')}</td>
-                <td>{p.isAvailable ? <button onClick={() => handleProduct({ ...p, isAvailable: !p.isAvailable }, "availability")}>Set not available</button> : <button onClick={() => handleProduct({ ...p, isAvailable: !p.isAvailable }, "availability")}>Set available</button>}</td>
+                <td><button onClick={() => handleProduct({ ...p, isAvailable: !p.isAvailable }, "availability")}> {p.isAvailable ? "Set not available" : "Set available"}</button>
+                </td>
                 <td><button onClick={() => handleProduct(p.id, "delete")}>Delete</button></td>
               </tr>)
             })}
