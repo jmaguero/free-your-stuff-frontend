@@ -32,6 +32,8 @@ export const CreateProductPage = () => {
     const data = await response.json();
     const { lat, lon } = data.results[0]
     setFormInput({ ...formInput, lat: lat, long: lon })
+    //TODO add navigation to new product
+    //TODO clean inputs after submitting
   }
 
   if (postCode && city && country) {

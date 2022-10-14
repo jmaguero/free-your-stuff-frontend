@@ -5,6 +5,7 @@ import { getUserWithStoredToken } from "./store/user/thunks";
 import { Routes, Route } from "react-router-dom";
 import { Navigation, MessageBox } from "./components";
 import { Homepage, Login, SignUp, ProductPage, UserPage, CreateProductPage, ResultsPage } from "./pages"
+import { InboxPage } from "./pages/InboxPage";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/me" element={<UserPage />} />
         <Route path="/results/:searchTerm" element={<ResultsPage />} />
+        <Route path="/me/inbox" element={<InboxPage />} />
       </Routes>
     </div>
   );
