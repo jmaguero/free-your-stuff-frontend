@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import logo from "@/../../public/logo.png"
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectToken } from "../store/user/selectors"
@@ -33,11 +34,11 @@ export const Navigation = () => {
 
   return (
     <Nav>
-      <Logo href="/">
-        Codaisseur<span>templates</span>
+      <Logo href="/" className="">
+        <img className="flex shrink" src={logo} alt="Free your stuff logo" />
       </Logo>
-      <div>
-        <form onSubmit={handleSearch} onClick={() => setToggleSearchResults(!toggleSearchResults)}>
+      <div className="px-8">
+        <form className="flex" onSubmit={handleSearch} onClick={() => setToggleSearchResults(!toggleSearchResults)}>
           <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Introduce a search term" />
           <button type="submit"><img src={searchIcon} alt="Search" style={{ height: "15px" }} /></button>
         </form>
@@ -59,7 +60,7 @@ export const Navigation = () => {
         {token ? <MenuLink to="/me">My Profile</MenuLink> : null}
         {token ? <MenuLink to="/me/inbox">Inbox</MenuLink> : null}
         {token
-          ? <button onClick={() => dispatch(logOut())}>Logout</button>
+          ? <MenuLink to="/login"><button onClick={() => dispatch(logOut())}>Logout</button></MenuLink>
           : <MenuLink to="/login">Login</MenuLink>}
       </Menu>
     </Nav>
@@ -71,10 +72,10 @@ const MenuLink = styled(Link)`
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  color: #ECECEC;
+  color: #408E61;
   transition: all 0.3s ease-in;
-  font-size: 0.9rem;
-
+  font-size: 1rem;
+  font-weight: 800;
   &:hover {
     color: #9CC094;
   }
@@ -85,17 +86,13 @@ const Nav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  background: #B22727;
-  /* position: absolute; */
-  top: 0;
-  left: 0;
-  right: 0;
+  background-color: #E3EECD;
+
 `
 
 const Logo = styled.a`
   padding: 1rem 0;
-  color: #ECECEC;
+  color: #408E61;
   text-decoration: none;
   font-weight: 800;
   font-size: 1.7rem;
@@ -113,13 +110,14 @@ const Hamburger = styled.div`
   span {
     height: 2px;
     width: 25px;
-    background-color: #ECECEC;
+    background-color: #408E61;
     margin-bottom: 4px;
     border-radius: 5px;
   }
 
   @media (max-width: 780px) {
     display: flex;
+
   }
 `
 
@@ -132,7 +130,9 @@ const Menu = styled.div`
   @media (max-width: 780px) {
     overflow: hidden;
     flex-direction: column;
-    width: 100%;
+
+    width: 90%;
+    max-width: 90%;
     max-height: ${({ open }) => open ? "300px" : "0"};
     transition: max-height 0.3s ease-in;
   }
