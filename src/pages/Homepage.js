@@ -16,7 +16,7 @@ export const Homepage = () => {
   }, [])
 
   if (!products) {
-    return <div>Loading...</div>
+    return <div>Loading..</div>
   }
 
 
