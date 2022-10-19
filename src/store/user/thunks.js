@@ -3,7 +3,7 @@ import axios from "axios";
 import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
-import { loginSuccess, logOut, tokenStillValid, updateUserProducts, updateUserState } from "./slice";
+import { loginSuccess, logOut, tokenStillValid, updateMessages, updateUserProducts, updateUserState } from "./slice";
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -144,8 +144,6 @@ export const updateUser = (params) => {
       } else {
         console.log(error);
       }
-      // if we get a 4xx or 5xx response,
-      // get rid of the token by logging out
       dispatch(appDoneLoading());
     }
   };
@@ -176,8 +174,6 @@ export const getUserProducts = () => {
       } else {
         console.log(error);
       }
-      // if we get a 4xx or 5xx response,
-      // get rid of the token by logging out
       dispatch(appDoneLoading());
     }
   };
@@ -208,8 +204,6 @@ export const updateUserProduct = (product) => {
       } else {
         console.log(error);
       }
-      // if we get a 4xx or 5xx response,
-      // get rid of the token by logging out
       dispatch(appDoneLoading());
     }
   };
@@ -241,8 +235,39 @@ export const deleteProduct = (id) => {
       } else {
         console.log(error);
       }
-      // if we get a 4xx or 5xx response,
-      // get rid of the token by logging out
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const fetchMessages = () => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+
+      // if we do have a token,
+      // check wether it is still valid or if it is expired
+      const response = await axios.get(`${apiUrl}/me/messages`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch(updateMessages(response.data));
+
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error)
+        console.log(error.response.message);
+      } else {
+        console.log(error);
+      }
+
       dispatch(appDoneLoading());
     }
   };

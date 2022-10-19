@@ -57,6 +57,7 @@ export const Navigation = () => {
       <Menu open={open}>
         <MenuLink to="/product/post">Post product!</MenuLink>
         {token ? <MenuLink to="/me">My Profile</MenuLink> : null}
+        {token ? <MenuLink to="/me/inbox">Inbox</MenuLink> : null}
         {token
           ? <button onClick={() => dispatch(logOut())}>Logout</button>
           : <MenuLink to="/login">Login</MenuLink>}

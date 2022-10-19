@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: localStorage.getItem("token"),
   profile: null,
-  products: null
+  products: null,
+  messages: null
 };
 
 export const userSlice = createSlice({
@@ -28,11 +29,13 @@ export const userSlice = createSlice({
     },
     updateUserProducts: (state, action) => {
       state.products = action.payload
-
+    },
+    updateMessages: (state, action) => {
+      state.messages = action.payload
     }
   },
 });
 
-export const { loginSuccess, logOut, tokenStillValid, updateUserState, updateUserProducts } = userSlice.actions;
+export const { loginSuccess, logOut, tokenStillValid, updateUserState, updateUserProducts, updateMessages } = userSlice.actions;
 
 export default userSlice.reducer;
