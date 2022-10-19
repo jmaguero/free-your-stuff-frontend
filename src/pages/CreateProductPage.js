@@ -76,35 +76,35 @@ export const CreateProductPage = () => {
 
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className="flex justify-center rounded-md border-2 border-light-green text-dark-green bg-light-green text-xl font-bold p-4">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
-        <label>Title</label>
-        <input type="text" value={formInput.name} onChange={(e) => setFormInput({ ...formInput, name: e.target.value })} placeholder="name" required />
-        <label>Condition</label>
-        <select value={formInput.condition} onChange={(e) => setFormInput({ ...formInput, condition: e.target.value })} required>
+        <label className="my-2">Title</label>
+        <input className="mb-2 px-2" type="text" value={formInput.name} onChange={(e) => setFormInput({ ...formInput, name: e.target.value })} placeholder="name" required />
+        <label className="my-2">Condition</label>
+        <select className="my-2 mb-2 px-2" value={formInput.condition} onChange={(e) => setFormInput({ ...formInput, condition: e.target.value })} required>
           <option value="good">Good</option>
           <option defaultValue value="regular">Regular</option>
           <option value="bad">Bad</option>
         </select>
-        <label>Category</label>
-        <select value={formInput.categoryId} onChange={(e) => setFormInput({ ...formInput, categoryId: e.target.value })} required >
+        <label className="my-2">Category</label>
+        <select className="my-2 mb-2 px-2" value={formInput.categoryId} onChange={(e) => setFormInput({ ...formInput, categoryId: e.target.value })} required >
           <option defaultValue value=""></option>
           {categories && categories.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
         </select>
-        <label>Upload a picture</label>
-        <input type="file" onChange={(e) => uploadImg(e)} required />
-        <label>Picture preview</label>
+        <label className="my-2">Upload a picture</label>
+        <input className="mb-2 px-2" type="file" onChange={(e) => uploadImg(e)} required />
+        <label className="my-2">Picture preview</label>
         <img src={formInput.imgUrl} alt={formInput.title} required style={{ width: "300px" }} />
-        <label>Description</label>
+        <label className="my-2">Description</label>
         <textarea type="text" value={formInput.description} onChange={(e) => setFormInput({ ...formInput, description: e.target.value })} placeholder="Product description" required />
-        <label>Postcode</label>
-        <input type="text" value={postCode} onChange={(e) => setPostCode(e.target.value)} placeholder="Postcode" required />
-        <label>City</label>
-        <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" required />
-        <label>Country</label>
-        <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="City" required />
+        <label className="my-2">Postcode</label>
+        <input className="mb-2 px-2" type="text" value={postCode} onChange={(e) => setPostCode(e.target.value)} placeholder="Postcode" required />
+        <label className="my-2">City</label>
+        <input className="mb-2 px-2" type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" required />
+        <label className="my-2">Country</label>
+        <input className="mb-2 px-2" type="text" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="City" required />
         <p>None of your private information will be shown to any other user</p>
-        <button type="submit">Post it</button>
+        <button className="bg-med-green border-2 border-spacing-10 border-dark-blue border-solid text-dark-blue" type="submit">Post it</button>
       </form>
     </div >
   )
