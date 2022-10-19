@@ -272,3 +272,50 @@ export const fetchMessages = () => {
     }
   };
 };
+
+
+export const postMessage = (message, chatId) => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+      const response = await axios.post(`${apiUrl}/me/messages`, {
+        message: message,
+        chatId: chatId
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response) {
+        dispatch(showMessageWithTimeout("success", false, response.message, 1500));
+      }
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(
+          setMessage({
+            variant: "danger",
+            dismissable: true,
+            text: error.response.data.message,
+          })
+        );
+      } else {
+        console.log(error.message);
+        dispatch(
+          setMessage({
+            variant: "danger",
+            dismissable: true,
+            text: error.response.data.message,
+          })
+        );
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
