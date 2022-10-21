@@ -21,9 +21,9 @@ export const Homepage = () => {
 
 
   return (
-    <div className="w-max m-auto flex flex-col place-items-center">
-      <NavLink className="my-6" to="/product/post">
-        <button style={{ height: "4em", width: "12em", fontSize: "1em", backgroundColor: "green" }}>Post a product</button>
+    <div className="w-max m-auto flex flex-col place-items-center mt-4">
+      <NavLink className="" to="/product/post">
+        <button className="p-4 m-4 border-solid border-2 border-spacing-4 border-light-green text-dark-green font-extrabold" >Post a product</button>
       </NavLink>
       <div className="grid grid-cols-3 place-items-center">
         {products.map(p => <ProductGridComponent key={p.id} id={p.id} imgUrl={p.imgUrl} name={p.name} description={p.description} />)}

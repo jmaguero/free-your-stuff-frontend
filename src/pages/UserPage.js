@@ -15,9 +15,9 @@ export const UserPage = () => {
 
   //TODO fix bug. When toggle modify user opens, it doesn't show values and breaks when refreshing.
   const [editUser, setEditUser] = useState({
-    name: user?.name || "",
-    lastname: user?.lastname || "",
-    email: user?.email || ""
+    name: user?.name,
+    lastname: user?.lastname,
+    email: user?.email
   })
 
   useEffect(() => {
@@ -58,12 +58,12 @@ export const UserPage = () => {
       <div>
         {user && !toggle ?
           <div>
-            <h2>{user.name}</h2>
-            <h2>{user.lastname}</h2>
-            <h2>{user.email}</h2>
-            <h2>{user.giverRating}</h2>
-            <h2>{user.receiverRating}</h2>
-            <button onClick={() => setToggle(!toggle)}>Edit Profile</button>
+            <h2 className="p-4 m-4 text-dark-green font-extrabold">Name: {user.name}</h2>
+            <h2 className="p-4 m-4 text-dark-green font-extrabold">Lastname: {user.lastname}</h2>
+            <h2 className="p-4 m-4 text-dark-green font-extrabold">Email: {user.email}</h2>
+            <h2 className="p-4 m-4 text-dark-green font-extrabold">{user.giverRating}</h2>
+            <h2 className="p-4 m-4 text-dark-green font-extrabold">{user.receiverRating}</h2>
+            <button className="p-4 m-4 border-solid border-2 border-spacing-4 border-light-green text-dark-green font-extrabold" onClick={() => setToggle(!toggle)}>Edit Profile</button>
           </div>
           :
           <div>
@@ -71,16 +71,15 @@ export const UserPage = () => {
               <input value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} />
               <input value={editUser.lastname} onChange={(e) => setEditUser({ ...editUser, lastname: e.target.value })} />
               <input value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
-              <h2>{user.giverRating}</h2>
-              <h2>{user.receiverRating}</h2>
-              <button type='submit'>Modify Profile</button>
+              <h2 className="p-4 m-4 text-dark-green font-extrabold" >{user.giverRating}</h2>
+              <h2 className="p-4 m-4 text-dark-green font-extrabold" >{user.receiverRating}</h2>
+              <button className="bg-med-green border-2 border-spacing-10 border-dark-blue border-solid text-dark-blue p-1" type='submit'>Modify Profile</button>
             </form>
           </div>
         }
       </div>
       <div>
-        <h2>User's products</h2>
-        <table>
+        <table className="p-4 m-4 text-dark-green font-extrabold">
           <thead>
             <tr>
               <th>Picture</th>
@@ -92,14 +91,14 @@ export const UserPage = () => {
           </thead>
           <tbody>
             {userProducts.map(p => {
-              return (<tr key={p.id}>
+              return (<tr className="p-2" key={p.id}>
 
-                <td><NavLink to={`/product/${p.id}`}><img src={p.imgUrl} alt={p.name} style={{ width: "60px", height: "60px" }} /></NavLink></td>
-                <td><NavLink to={`/product/${p.id}`}>{p.name}</NavLink></td>
-                <td>{moment(p.createdAt).format('L')}</td>
-                <td><button onClick={() => handleProduct({ ...p, isAvailable: !p.isAvailable }, "availability")}> {p.isAvailable ? "Set not available" : "Set available"}</button>
+                <td className="p-2"><NavLink to={`/product/${p.id}`}><img src={p.imgUrl} alt={p.name} style={{ width: "60px", height: "60px" }} /></NavLink></td>
+                <td className="p-2"><NavLink to={`/product/${p.id}`}>{p.name}</NavLink></td>
+                <td className="p-2">{moment(p.createdAt).format('L')}</td>
+                <td className="p-2"><button className="bg-med-green border-2 border-spacing-10 border-dark-blue border-solid text-dark-blue p-1" onClick={() => handleProduct({ ...p, isAvailable: !p.isAvailable }, "availability")}> {p.isAvailable ? "Set not available" : "Set available"}</button>
                 </td>
-                <td><button onClick={() => handleProduct(p.id, "delete")}>Delete</button></td>
+                <td className="p-2"><button className="bg-med-green border-2 border-spacing-10 border-dark-blue border-solid text-dark-blue p-1" onClick={() => handleProduct(p.id, "delete")}>Delete</button></td>
               </tr>)
             })}
           </tbody>

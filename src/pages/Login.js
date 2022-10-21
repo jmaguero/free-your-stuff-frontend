@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Button, Input, Title, LinkWord } from "../styled"
+import { Input, Title, LinkWord } from "../styled"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -29,27 +29,27 @@ export const Login = () => {
   }
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div style={{ textAlign: "center" }}>
       <Container>
-        <Title>Login</Title>
+        <h1 className="p-4 m-4 text-3xl text-dark-green font-extrabold">Login</h1>
         <form onSubmit={submitForm}>
-          <Input 
+          <Input
             placeholder="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input 
-            type="password" 
+          <Input
+            type="password"
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <br/>
-          <Button type="submit">Login</Button>
+          <br />
+          <button className="p-4 m-4 border-solid border-2 border-spacing-4 border-light-green text-dark-green font-extrabold" type="submit">Login</button>
         </form>
-        <SubText>
-          Don't have an account yet? Click <Link to="/signup" style={LinkWord}>here</Link> to sign up
-        </SubText>
+        <p>
+          Don't have an account yet? Click <a className="text-dark-green" href="/signup">here</a> to sign up
+        </p>
       </Container>
     </div>
   )

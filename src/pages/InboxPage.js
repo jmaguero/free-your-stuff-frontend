@@ -23,7 +23,7 @@ export const InboxPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(postMessage(message, chatId))
+    dispatch(postMessage(message, chatId, null))
     setMessage("")
   }
 

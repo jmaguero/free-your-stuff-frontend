@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { ProductGridComponent } from '../components'
 import { selectSearchResult } from '../store/product/selectors'
-import { Container } from '../styled'
 
 export const ResultsPage = () => {
   const searchResult = useSelector(selectSearchResult)
@@ -15,8 +14,8 @@ export const ResultsPage = () => {
   }
 
   return (
-    <Container>
-      <button onClick={() => setMapToggle(!mapToggle)}>{!mapToggle ? "Show Results on map" : "Show Results Grid"}</button>
+    <div className="w-max m-auto flex flex-col place-items-center mt-4">
+      <button className="p-4 m-4 border-solid border-2 border-spacing-4 border-light-green text-dark-green font-extrabold" onClick={() => setMapToggle(!mapToggle)}>{!mapToggle ? "Show Results on map" : "Show Results Grid"}</button>
       {mapToggle ?
         <MapContainer center={[`${searchResult[0].lat}`, `${searchResult[0].long}`]} zoom={15} scrollWheelZoom={false} style={{ width: "1200px", height: "800px" }}>
           <TileLayer
@@ -39,10 +38,10 @@ export const ResultsPage = () => {
           })}
         </MapContainer>
         :
-        <div style={{ width: "80%", display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
+        <div className="grid grid-cols-3 place-items-center">
           {searchResult.map(p => <ProductGridComponent key={p.id} id={p.id} imgUrl={p.imgUrl} name={p.name} description={p.description} />)}
         </div>}
 
-    </Container>
+    </div>
   )
 }

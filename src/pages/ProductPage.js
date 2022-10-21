@@ -4,18 +4,22 @@ import { useParams } from 'react-router-dom';
 import { selectProduct } from '../store/product/selectors';
 import { getProduct } from '../store/product/thunks';
 import { ContactFormComponent, MapComponent, ProductComponent } from '../components';
+import { postMessage } from "../store/user/thunks"
 
 export const ProductPage = () => {
-  const [formInput, setFormInput] = useState({ name: "", message: "" })
+  const [message, setMessage] = useState(undefined)
   const params = useParams()
   const { id } = params;
   const dispatch = useDispatch()
   const product = useSelector(selectProduct);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Sent")
+    dispatch(postMessage(""))
+    setMessage("")
   }
+
 
   useEffect(() => {
     dispatch(getProduct(id))
@@ -28,15 +32,12 @@ export const ProductPage = () => {
   }
 
   return (
-    <div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+    <div className="flex flex-col w-full mt-10">
+      <div className="flex flex-row w-full place-content-center">
         <ProductComponent imgUrl={product.imgUrl} name={product.name} description={product.description} lat={product.lat} long={product.long} />
-
-        <ContactFormComponent handleSubmit={handleSubmit} name={formInput.name} handleNameChange={(e) => setFormInput({ ...formInput, name: e.target.value })} message={formInput.message} handleMessageChange={(e) => setFormInput({ ...formInput, message: e.target.value })} />
-      </div>
-      <div>
         <MapComponent lat={product.lat} long={product.long} />
-      </div>
-    </div>
+      </div >
+      <ContactFormComponent handleSubmit={handleSubmit} message={message} handleMessageChange={(e) => setMessage(e.target.value)} />
+    </div >
   )
 }

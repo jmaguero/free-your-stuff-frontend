@@ -274,7 +274,7 @@ export const fetchMessages = () => {
 };
 
 
-export const postMessage = (message, chatId) => {
+export const postMessage = (message, chatId, productId) => {
   return async (dispatch, getState) => {
     // get token from the state
     const token = selectToken(getState());
